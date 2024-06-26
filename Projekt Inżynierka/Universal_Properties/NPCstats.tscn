@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgrw1r21ot1wd"]
+
+[ext_resource type="Script" path="res://Scripts/NPCstats.gd" id="1_2da5m"]
+
+[node name="NPCStats" type="Node"]
+script = ExtResource("1_2da5m")

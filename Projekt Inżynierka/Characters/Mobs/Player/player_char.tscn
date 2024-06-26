@@ -1,0 +1,364 @@
+[gd_scene load_steps=38 format=3 uid="uid://clbwyosog7v28"]
+
+[ext_resource type="Script" path="res://Characters/Mobs/Player/PlayerChar.gd" id="1_nn2kb"]
+[ext_resource type="Texture2D" uid="uid://kxj1og80u58v" path="res://Textures/Chars/Player/Char_Sheet.png" id="2_kasjp"]
+[ext_resource type="PackedScene" uid="uid://iuvl7ua754cj" path="res://Universal_Properties/hurtbox.tscn" id="3_f8bno"]
+[ext_resource type="Script" path="res://Characters/Mobs/Player/PlayerHUD.gd" id="5_gf0ci"]
+[ext_resource type="PackedScene" uid="uid://bf18b1nctkkll" path="res://Universal_Properties/blink.tscn" id="5_ljyhn"]
+[ext_resource type="Texture2D" uid="uid://dagk3yaab1um4" path="res://Textures/UI/Health.png" id="6_8trgp"]
+[ext_resource type="Texture2D" uid="uid://bgsgdviy4ejjx" path="res://Textures/UI/HealthLow.png" id="7_niwbu"]
+[ext_resource type="Texture2D" uid="uid://fjpc6ekas0ss" path="res://Textures/Objects/banana.png" id="8_rcx30"]
+
+[sub_resource type="Animation" id="Animation_wcfv4"]
+resource_name = "Idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 6, 0]
+}
+
+[sub_resource type="Animation" id="Animation_3d4hs"]
+resource_name = "Walk_Down"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [7, 0, 5, 0, 4, 0, 5, 0]
+}
+
+[sub_resource type="Animation" id="Animation_m5jd7"]
+resource_name = "Walk_Left"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_bocy2"]
+resource_name = "Walk_Right"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_o7jcy"]
+resource_name = "Walk_Up"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6gda8"]
+_data = {
+"Idle": SubResource("Animation_wcfv4"),
+"Walk_Down": SubResource("Animation_3d4hs"),
+"Walk_Left": SubResource("Animation_m5jd7"),
+"Walk_Right": SubResource("Animation_bocy2"),
+"Walk_Up": SubResource("Animation_o7jcy")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d77pt"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bhvis"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_alv74"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fnbbt"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_fjlao"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_d77pt")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_bhvis")
+blend_point_1/pos = Vector2(1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_alv74")
+blend_point_2/pos = Vector2(0, -1)
+blend_point_3/node = SubResource("AnimationNodeAnimation_fnbbt")
+blend_point_3/pos = Vector2(-1, 0)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j04f2"]
+animation = &"Walk_Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bxmbi"]
+animation = &"Walk_Down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n2wqi"]
+animation = &"Walk_Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kcbt7"]
+animation = &"Walk_Up"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_poor8"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_j04f2")
+blend_point_0/pos = Vector2(-1.1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_bxmbi")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_n2wqi")
+blend_point_2/pos = Vector2(1.1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_kcbt7")
+blend_point_3/pos = Vector2(0, -1)
+min_space = Vector2(-1.1, -1)
+max_space = Vector2(1.1, 1)
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ovkgn"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kb2bs"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_suan7"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ffx3g"]
+states/End/position = Vector2(689, 75)
+states/Idles/node = SubResource("AnimationNodeBlendSpace2D_fjlao")
+states/Idles/position = Vector2(315, 138)
+states/Start/position = Vector2(166, 138)
+states/Walks/node = SubResource("AnimationNodeBlendSpace2D_poor8")
+states/Walks/position = Vector2(541, 138)
+transitions = ["Start", "Idles", SubResource("AnimationNodeStateMachineTransition_ovkgn"), "Idles", "Walks", SubResource("AnimationNodeStateMachineTransition_kb2bs"), "Walks", "Idles", SubResource("AnimationNodeStateMachineTransition_suan7")]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iw4sf"]
+resource_local_to_scene = true
+radius = 3.0
+height = 10.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r0mho"]
+resource_local_to_scene = true
+radius = 4.0
+height = 12.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ch52n"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1fgkx"]
+texture = ExtResource("6_8trgp")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drwwo"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hq8gq"]
+texture = ExtResource("7_niwbu")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_la5my"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6y3dp"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iebd3"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[node name="PlayerChar" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 27
+script = ExtResource("1_nn2kb")
+
+[node name="Player_Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(0, -8)
+texture = ExtResource("2_kasjp")
+hframes = 4
+vframes = 4
+
+[node name="Player_Anims" type="AnimationPlayer" parent="Player_Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_6gda8")
+}
+
+[node name="Player_AnimationTree" type="AnimationTree" parent="Player_Sprite"]
+tree_root = SubResource("AnimationNodeStateMachine_ffx3g")
+anim_player = NodePath("../Player_Anims")
+parameters/Idles/blend_position = Vector2(0, 0)
+parameters/Walks/blend_position = Vector2(0, 0.001)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape2D_iw4sf")
+
+[node name="hurtbox" parent="." instance=ExtResource("3_f8bno")]
+visible = false
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_r0mho")
+debug_color = Color(0.959342, 7.70092e-07, 0.52216, 0.42)
+
+[node name="Node2D" type="Node2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, -2)
+
+[node name="Marker2D" type="Marker2D" parent="Node2D"]
+y_sort_enabled = true
+position = Vector2(19, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(2, 1)
+
+[node name="Blink" parent="." instance=ExtResource("5_ljyhn")]
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+script = ExtResource("5_gf0ci")
+
+[node name="ActualHealthBar" type="ProgressBar" parent="HUD"]
+visible = false
+z_index = 1
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 0
+offset_left = -15.0
+offset_top = -30.0
+offset_right = 15.0
+offset_bottom = -24.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_ch52n")
+theme_override_styles/fill = SubResource("StyleBoxTexture_1fgkx")
+value = 50.0
+show_percentage = false
+
+[node name="DamageBar" type="ProgressBar" parent="HUD/ActualHealthBar"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_drwwo")
+theme_override_styles/fill = SubResource("StyleBoxTexture_hq8gq")
+value = 60.0
+show_percentage = false
+
+[node name="HealthBarFadeTimer" type="Timer" parent="HUD/ActualHealthBar"]
+wait_time = 5.0
+one_shot = true
+
+[node name="MouseFollower" type="Panel" parent="HUD"]
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_la5my")
+
+[node name="AttackDelayBar" type="ProgressBar" parent="HUD/MouseFollower"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -2.0
+offset_right = -10.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+theme_override_styles/background = SubResource("StyleBoxFlat_6y3dp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_iebd3")
+value = 100.0
+show_percentage = false
+
+[node name="AttackDelayTimer" type="Timer" parent="HUD/MouseFollower/AttackDelayBar"]
+
+[node name="FPScounter" type="Label" parent="HUD"]
+layout_mode = 0
+offset_left = -316.0
+offset_top = -177.0
+offset_right = -276.0
+offset_bottom = -154.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "FPS: "
+
+[node name="WeaponPanelSprite" type="TextureRect" parent="HUD"]
+texture_filter = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -8.0
+offset_right = -2.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_rcx30")
+expand_mode = 1
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="SpriteVisibleFalse" from="Blink" to="." method="_on_blink_sprite_visible_false"]
+[connection signal="SpriteVisibleTrue" from="Blink" to="." method="_on_blink_sprite_visible_true"]
+[connection signal="hurtboxDisable" from="Blink" to="." method="_on_blink_hurtbox_disable"]
+[connection signal="hurtboxEnable" from="Blink" to="." method="_on_blink_hurtbox_enable"]
+[connection signal="timeout" from="HUD/ActualHealthBar/HealthBarFadeTimer" to="HUD" method="_on_health_bar_fade_timer_timeout"]
+[connection signal="timeout" from="HUD/MouseFollower/AttackDelayBar/AttackDelayTimer" to="." method="_on_attack_delay_timer_timeout"]
+
+[editable path="hurtbox"]

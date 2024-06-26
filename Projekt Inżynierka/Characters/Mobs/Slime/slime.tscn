@@ -1,0 +1,138 @@
+[gd_scene load_steps=18 format=3 uid="uid://sgui4qg77lok"]
+
+[ext_resource type="Script" path="res://Characters/Mobs/Slime/slime.gd" id="1_ptcw1"]
+[ext_resource type="Texture2D" uid="uid://petx2qx3leb6" path="res://Textures/Chars/Mobs/Slime/Slime.png" id="1_sydjn"]
+[ext_resource type="PackedScene" uid="uid://iuvl7ua754cj" path="res://Universal_Properties/hurtbox.tscn" id="3_xaiuh"]
+[ext_resource type="Script" path="res://Characters/Mobs/Slime/SlimeDamage.gd" id="4_c4ura"]
+[ext_resource type="PackedScene" uid="uid://dgrw1r21ot1wd" path="res://Universal_Properties/NPCstats.tscn" id="4_rs28y"]
+[ext_resource type="PackedScene" uid="uid://bf18b1nctkkll" path="res://Universal_Properties/blink.tscn" id="5_abs8j"]
+[ext_resource type="Script" path="res://Scripts/NPCHealthBar.gd" id="7_nrtna"]
+[ext_resource type="Texture2D" uid="uid://dagk3yaab1um4" path="res://Textures/UI/Health.png" id="9_bkyp1"]
+[ext_resource type="Texture2D" uid="uid://bgsgdviy4ejjx" path="res://Textures/UI/HealthLow.png" id="9_fuwr5"]
+[ext_resource type="PackedScene" uid="uid://cqrhwh0ptasv5" path="res://Universal_Properties/DetectionRange.tscn" id="10_glkcp"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pn0ta"]
+resource_local_to_scene = true
+radius = 5.0
+height = 24.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ixwlk"]
+resource_local_to_scene = true
+radius = 6.0
+height = 26.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7jgv8"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l06gr"]
+texture = ExtResource("9_bkyp1")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7pcgb"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yu2p5"]
+texture = ExtResource("9_fuwr5")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gycot"]
+radius = 100.0
+
+[node name="Slime" type="CharacterBody2D"]
+z_index = 1
+texture_filter = 1
+texture_repeat = 1
+collision_layer = 8
+collision_mask = 87
+script = ExtResource("1_ptcw1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -10)
+texture = ExtResource("1_sydjn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+position = Vector2(0, -2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_pn0ta")
+
+[node name="hurtbox" parent="." instance=ExtResource("3_xaiuh")]
+collision_layer = 8
+collision_mask = 96
+script = ExtResource("4_c4ura")
+
+[node name="CollisionShape2D" parent="hurtbox" index="0"]
+position = Vector2(0, -2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ixwlk")
+debug_color = Color(0.845338, 0.331935, 0.477848, 0.42)
+
+[node name="Blink" parent="." instance=ExtResource("5_abs8j")]
+
+[node name="NPCStats" parent="." instance=ExtResource("4_rs28y")]
+Basespd = 40
+Basehp = 4
+Baseslow = 0.3
+
+[node name="Health Bar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_nrtna")
+
+[node name="ActualHealthBar" type="ProgressBar" parent="Health Bar"]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = -15.0
+offset_top = -22.0
+offset_right = 15.0
+offset_bottom = -16.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_7jgv8")
+theme_override_styles/fill = SubResource("StyleBoxTexture_l06gr")
+value = 50.0
+show_percentage = false
+
+[node name="DamageBar" type="ProgressBar" parent="Health Bar/ActualHealthBar"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_7pcgb")
+theme_override_styles/fill = SubResource("StyleBoxTexture_yu2p5")
+value = 60.0
+show_percentage = false
+
+[node name="DetectionRange" parent="." instance=ExtResource("10_glkcp")]
+collision_layer = 0
+collision_mask = 4
+input_pickable = false
+
+[node name="CollisionShape2D" parent="DetectionRange" index="0"]
+shape = SubResource("CircleShape2D_gycot")
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="SpriteVisibleFalse" from="Blink" to="." method="_on_blink_sprite_visible_false"]
+[connection signal="SpriteVisibleTrue" from="Blink" to="." method="_on_blink_sprite_visible_true"]
+[connection signal="hurtboxDisable" from="Blink" to="." method="_on_blink_hurtbox_disable"]
+[connection signal="hurtboxEnable" from="Blink" to="." method="_on_blink_hurtbox_enable"]
+[connection signal="No_hp" from="NPCStats" to="." method="_on_stats_no_hp"]
+[connection signal="hpFlux" from="NPCStats" to="Health Bar" method="_on_npc_stats_hp_flux"]
+[connection signal="hpSend" from="NPCStats" to="Health Bar" method="_on_npc_stats_hp_send"]
+[connection signal="area_entered" from="DetectionRange" to="." method="_on_detection_range_area_entered"]
+
+[editable path="hurtbox"]
+[editable path="NPCStats"]
+[editable path="DetectionRange"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1obsn0dt0e2t"]
+
+[ext_resource type="PackedScene" uid="uid://dgrw1r21ot1wd" path="res://Universal_Properties/NPCstats.tscn" id="1_pjp1u"]
+[ext_resource type="Script" path="res://Characters/Mobs/Player/PlayerStats.gd" id="2_i43bj"]
+
+[node name="PlayerStats" instance=ExtResource("1_pjp1u")]
+script = ExtResource("2_i43bj")
+Basespd = 60
+Basehp = 5
+BaseCarrotRate = 0.75
+BaseBananaRate = 2.0

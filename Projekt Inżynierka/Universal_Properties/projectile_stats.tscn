@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhvd335lfbrt1"]
+
+[ext_resource type="Script" path="res://Scripts/ProjectileStats.gd" id="1_hocr6"]
+
+[node name="ProjectileStats" type="Node"]
+script = ExtResource("1_hocr6")
