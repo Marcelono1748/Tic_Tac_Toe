@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cbfh5v4qrypno"]
 
 [ext_resource type="Script" path="res://Scripts/Carrot_Projectile.gd" id="1_auqyo"]
-[ext_resource type="Texture2D" uid="uid://cpfo2k50rg7tt" path="res://Textures/Objects/Carrot.png" id="2_454rw"]
+[ext_resource type="Texture2D" uid="uid://cpfo2k50rg7tt" path="res://Textures/Objects/Carrot.png" id="2_38jgg"]
 [ext_resource type="PackedScene" uid="uid://iuvl7ua754cj" path="res://Universal_Properties/hurtbox.tscn" id="4_8c01q"]
 [ext_resource type="Script" path="res://Scripts/ProjectileStats.gd" id="4_e06s4"]
 
@@ -27,7 +27,7 @@ y_sort_enabled = true
 texture_filter = 1
 position = Vector2(-10.0116, 0.0102501)
 rotation = -1.5708
-texture = ExtResource("2_454rw")
+texture = ExtResource("2_38jgg")
 offset = Vector2(0.0101928, 0.0117054)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

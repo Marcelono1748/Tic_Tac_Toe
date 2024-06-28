@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 
 [autoload]
 
-PlayerStats="*res://Characters/Mobs/Player/player_stats.tscn"
+PlayerStats="*res://Characters/Player/player_stats.tscn"
 
 [display]
 

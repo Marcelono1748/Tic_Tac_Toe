@@ -6,12 +6,15 @@ extends Node
 @export var BaseCarrotRate = 0.5
 @export var BaseBananaRate = 0.5
 
+
 @onready var spd = Basespd
 @onready var slow = Baseslow
 @onready var slowed = spd*slow
 @onready var CarrotRate = BaseCarrotRate
 @onready var BananaRate = BaseBananaRate
 @onready var hp = Basehp : set = hpChange
+
+var Location = 0
 
 const Carrot_Projectile = preload("res://Objects/Carrot_Projectile.tscn")
 const Banana_Projectile = preload("res://Objects/Banana_Projectile.tscn")

@@ -9,22 +9,28 @@ var angle = 0
 var stats = null
 var blink = null
 var action = null
+var plstats = null
 enum{
 	Neutral,
-	Attack
+	Attack,
+	Death
 }
 
 func _ready():
 	action = Neutral
 	stats = $NPCStats
 	blink = $Blink
+	plstats = PlayerStats
 func _physics_process(_delta):
-	var invec = Vector2.ZERO
+	
 	match action:
 		Neutral:
-			print("A mimir")
+			velocity = Vector2.ZERO
 		Attack:
-			print("PitbullModeActivated")
+			Follow()
+		Death:
+			RIP()
+	move_and_slide()
 	
 func _on_hurtbox_area_entered(_area):
 	if stats.hp > 0:
@@ -32,9 +38,8 @@ func _on_hurtbox_area_entered(_area):
 	stats.hp = stats.hp - _area.damage
 
 func _on_stats_no_hp():
-	stats.spd = 0
-	await get_tree().create_timer(0.5).timeout
-	queue_free()
+	action = Death
+	
 
 func _on_blink_hurtbox_disable():
 	$hurtbox/CollisionShape2D.set_deferred("disabled",true)
@@ -60,4 +65,17 @@ func _on_blink_sprite_visible_false():
 func _on_detection_range_area_entered(area):
 	action = Attack
 
+func _on_detection_range_area_exited(area):
+	action = Neutral
+	print("mamussy")
+func Follow():
+	var PlayerPosition = plstats.Location
+	var dir = (PlayerPosition - global_position).normalized()
+	velocity = velocity.move_toward(dir*stats.spd, stats.spd)
+
+func RIP():
+	stats.spd = 0
+	velocity = Vector2.ZERO
+	await get_tree().create_timer(0.5).timeout
+	queue_free()
 

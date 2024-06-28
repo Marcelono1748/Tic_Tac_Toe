@@ -3,7 +3,8 @@ extends CharacterBody2D
 
 enum{
 	Movement,
-	Attack
+	Attack,
+	Respawn,
 }
 enum{
 	Weapon0,
@@ -41,6 +42,7 @@ func _ready():
 	WeaponType = Weapon0
 	projectile = stats.Carrot_Projectile
 	AttackDelayBar.value = AttackDelayBar.max_value
+	stats.Location = global_position
 	
 	AnimStat = AnimTree.get("parameters/playback")
 	AttackTimerSwitch()
@@ -67,13 +69,14 @@ func _physics_process(_delta):
 	
 
 func to_MVE():
-	
+	stats.Location = global_position
 	var invec = Vector2.ZERO
 	invec.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	invec.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	invec=invec.normalized()
 	
 	if invec != Vector2.ZERO:
+		
 		AnimTree.set("parameters/Idles/blend_position", invec)
 		AnimTree.set("parameters/Walks/blend_position", invec)
 		AnimStat.travel("Walks")
@@ -113,17 +116,7 @@ func _on_hurtbox_area_entered(_area):
 
 
 func _on_stats_no_hp():
-	stats.spd = 0
-	await get_tree().create_timer(0.5).timeout
-	_on_blink_sprite_visible_false()
-	
-	await get_tree().create_timer(1).timeout
-	position.x = 100
-	position.y = 120
-	
-	_on_blink_sprite_visible_true()
-	stats.spd = stats.Basespd
-	stats.hp = stats.Basehp
+	to_RSPWN()
 
 
 func _on_blink_hurtbox_disable():
@@ -134,8 +127,8 @@ func _on_blink_hurtbox_disable():
 
 
 func _on_blink_hurtbox_enable():
-	$hurtbox/CollisionShape2D.set_deferred("disabled",false)
 	set_collision_mask_value(4,true)
+	$hurtbox/CollisionShape2D.set_deferred("disabled",false)
 	stats.spd = stats.Basespd
 
 
@@ -185,3 +178,17 @@ func AttackTimerSwitch():
 	AttackTimerChunk = AttackDelayBar.max_value / AttackDelayTimer.wait_time
 func AttackDelayBarUpdater():
 	AttackDelayBar.value = AttackDelayBar.max_value - (AttackTimerChunk * AttackDelayTimer.time_left)
+
+func to_RSPWN():
+	stats.spd = 0
+	velocity - Vector2.ZERO
+	await get_tree().create_timer(0.5).timeout
+	_on_blink_sprite_visible_false()
+	
+	await get_tree().create_timer(1).timeout
+	position.x = 300
+	position.y = 300
+	
+	_on_blink_sprite_visible_true()
+	stats.spd = stats.Basespd
+	stats.hp = stats.Basehp

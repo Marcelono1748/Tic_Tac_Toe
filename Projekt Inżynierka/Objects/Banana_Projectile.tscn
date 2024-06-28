@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bevidk77hwul1"]
 
 [ext_resource type="Script" path="res://Scripts/Banana_Projectile.gd" id="1_g8eom"]
-[ext_resource type="Texture2D" uid="uid://fjpc6ekas0ss" path="res://Textures/Objects/banana.png" id="2_b5xdo"]
+[ext_resource type="Texture2D" uid="uid://fjpc6ekas0ss" path="res://Textures/Objects/banana.png" id="2_mqowh"]
 [ext_resource type="Script" path="res://Scripts/ProjectileStats.gd" id="4_580e5"]
 [ext_resource type="PackedScene" uid="uid://iuvl7ua754cj" path="res://Universal_Properties/hurtbox.tscn" id="4_ii8rf"]
 
@@ -17,7 +17,7 @@ script = ExtResource("1_g8eom")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_b5xdo")
+texture = ExtResource("2_mqowh")
 offset = Vector2(0.0101928, 0.0117054)
 
 [node name="Hitbox" parent="." instance=ExtResource("4_ii8rf")]

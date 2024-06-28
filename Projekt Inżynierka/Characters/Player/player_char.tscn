@@ -1,9 +1,9 @@
 [gd_scene load_steps=38 format=3 uid="uid://clbwyosog7v28"]
 
-[ext_resource type="Script" path="res://Characters/Mobs/Player/PlayerChar.gd" id="1_nn2kb"]
+[ext_resource type="Script" path="res://Characters/Player/PlayerChar.gd" id="1_nn2kb"]
 [ext_resource type="Texture2D" uid="uid://kxj1og80u58v" path="res://Textures/Chars/Player/Char_Sheet.png" id="2_kasjp"]
 [ext_resource type="PackedScene" uid="uid://iuvl7ua754cj" path="res://Universal_Properties/hurtbox.tscn" id="3_f8bno"]
-[ext_resource type="Script" path="res://Characters/Mobs/Player/PlayerHUD.gd" id="5_gf0ci"]
+[ext_resource type="Script" path="res://Characters/Player/PlayerHUD.gd" id="5_gf0ci"]
 [ext_resource type="PackedScene" uid="uid://bf18b1nctkkll" path="res://Universal_Properties/blink.tscn" id="5_ljyhn"]
 [ext_resource type="Texture2D" uid="uid://dagk3yaab1um4" path="res://Textures/UI/Health.png" id="6_8trgp"]
 [ext_resource type="Texture2D" uid="uid://bgsgdviy4ejjx" path="res://Textures/UI/HealthLow.png" id="7_niwbu"]
@@ -210,7 +210,7 @@ border_color = Color(0, 0, 0, 1)
 
 [node name="PlayerChar" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 27
+collision_mask = 19
 script = ExtResource("1_nn2kb")
 
 [node name="Player_Sprite" type="Sprite2D" parent="."]
@@ -233,11 +233,9 @@ parameters/Idles/blend_position = Vector2(0, 0)
 parameters/Walks/blend_position = Vector2(0, 0.001)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CapsuleShape2D_iw4sf")
 
 [node name="hurtbox" parent="." instance=ExtResource("3_f8bno")]
-visible = false
 collision_layer = 4
 collision_mask = 8
 
